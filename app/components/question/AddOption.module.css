@@ -1,0 +1,7 @@
+.add_option_link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 7px;
+  text-decoration-color: rgb(188, 188, 188);
+  cursor: text;
+}
