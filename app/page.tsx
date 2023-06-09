@@ -1,9 +1,11 @@
-import QuestionForm from './components/question/QuestionForm'
+import QuestionForms from './components/questions/QuestionForms'
 
 export default function Home() {
   return (
-    <main>
-      <QuestionForm />
-    </main>
+    <div className="flex justify-center">
+      <main>
+        <QuestionForms />
+      </main>
+    </div>
   )
 }
