@@ -6,11 +6,16 @@ import QuestionOption from './QuestionOption'
 import Question from './Question'
 import { determineIcon } from './utils/utilities'
 import AddOption from './AddOption'
-import { questionTypeMultipleOptions as qTypeMultiOptions } from './question-type'
+import {
+  questionTypeText as qTypeText,
+  questionTypeMultipleOptions as qTypeMultiOptions,
+} from './question-type'
+
+import styles from './QuestionForm.module.css'
 
 export default function QuestionForm() {
   const [selectedQuestionType, setSelectedQuestionType] = useState(
-    qTypeMultiOptions.radio
+    qTypeText.short
   )
   const [questionOptions, setQuestionOptions] = useState([
     {
@@ -18,6 +23,11 @@ export default function QuestionForm() {
       value: 'Option 1',
     },
   ])
+
+  const isQTypeTextSelected =
+    Object.values(qTypeText).includes(selectedQuestionType)
+  const isQTypeMultOptionsSelected =
+    Object.values(qTypeMultiOptions).includes(selectedQuestionType)
 
   const changeQuestionTypeHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -52,6 +62,23 @@ export default function QuestionForm() {
     setQuestionOptions(newQuestionOptions)
   }
 
+  // FIXME: Consider renaming this function
+  const showQuestionText = () => {
+    return isQTypeTextSelected && renderQuestionText()
+  }
+  const renderQuestionText = () => {
+    return (
+      <>
+        <p className={styles.render_question_text}>
+          Text ({selectedQuestionType})
+        </p>
+      </>
+    )
+  }
+
+  const showQuestionOptions = () => {
+    return isQTypeMultOptionsSelected && renderQuestionOptions()
+  }
   const renderQuestionOptions = () => {
     const icon = determineIcon(selectedQuestionType)
 
@@ -93,12 +120,16 @@ export default function QuestionForm() {
             value={selectedQuestionType}
             onChange={changeQuestionTypeHandler}
           >
+            <option value={qTypeText.short}>Text (short)</option>
+            <option value={qTypeText.long}>Text (long)</option>
             <option value={qTypeMultiOptions.radio}>Radio button</option>
+            <option value={qTypeMultiOptions.radio}>Radio Button</option>
             <option value={qTypeMultiOptions.checkbox}>Checkbox</option>
             <option value={qTypeMultiOptions.pulldown}>Pulldown</option>
           </select>
         </label>
-        {renderQuestionOptions()}
+        {showQuestionText()}
+        {showQuestionOptions()}
       </div>
     </>
   )

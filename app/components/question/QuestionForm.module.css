@@ -1,0 +1,15 @@
+.render_question_text {
+  color: gray;
+  position: relative;
+  cursor: default;
+}
+
+.render_question_text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 30%;
+  height: 1px;
+  background-color: gray;
+}
