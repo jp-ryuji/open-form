@@ -4,20 +4,12 @@
   cursor: default;
 }
 
-.render_question_text::before,
 .render_question_text::after {
   content: '';
   position: absolute;
   left: 0;
+  bottom: -6px;
   width: 30%;
   height: 1px;
-  background-color: lightgray;
-}
-
-.render_question_text::before {
-  bottom: -6px; /* NOTE: color becomes lighter when it's -5px for some reason */
-}
-
-.render_question_text::after {
-  bottom: -30px;
+  background-color: gray;
 }
