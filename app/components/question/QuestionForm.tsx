@@ -10,6 +10,7 @@ import {
   questionTypeText as qTypeText,
   questionTypeMultipleOptions as qTypeMultiOptions,
 } from './question-type'
+import Card from '../ui/Card'
 
 import styles from './QuestionForm.module.css'
 
@@ -68,11 +69,9 @@ export default function QuestionForm() {
   }
   const renderQuestionText = () => {
     return (
-      <>
-        <p className={styles.render_question_text}>
-          Text ({selectedQuestionType})
-        </p>
-      </>
+      <p className={styles.render_question_text}>
+        Text ({selectedQuestionType})
+      </p>
     )
   }
 
@@ -111,7 +110,7 @@ export default function QuestionForm() {
   }
 
   return (
-    <>
+    <Card>
       <Question />
       <div>
         <label>
@@ -123,7 +122,6 @@ export default function QuestionForm() {
             <option value={qTypeText.short}>Text (short)</option>
             <option value={qTypeText.long}>Text (long)</option>
             <option value={qTypeMultiOptions.radio}>Radio button</option>
-            <option value={qTypeMultiOptions.radio}>Radio Button</option>
             <option value={qTypeMultiOptions.checkbox}>Checkbox</option>
             <option value={qTypeMultiOptions.pulldown}>Pulldown</option>
           </select>
@@ -131,6 +129,6 @@ export default function QuestionForm() {
         {showQuestionText()}
         {showQuestionOptions()}
       </div>
-    </>
+    </Card>
   )
 }
