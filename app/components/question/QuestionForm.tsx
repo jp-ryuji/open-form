@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 
 import Card from '../ui/Card'
 import AddOption from './AddOption'
+import ButtomNavigationBar from './BottomNavigationBar'
 import Question from './Question'
 import {
   questionTypeMultipleOptions as qTypeMultiOptions,
@@ -127,6 +128,7 @@ export default function QuestionForm() {
         </label>
         {showQuestionText()}
         {showQuestionOptions()}
+        <ButtomNavigationBar />
       </div>
     </Card>
   )
