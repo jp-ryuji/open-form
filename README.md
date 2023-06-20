@@ -32,3 +32,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## TypeScript
+
+### Format
+
+ESLint rules in [.eslintrc](../.eslintrc) defined the format.
+
+Configure IDEs (eg. VSCode) to automatically apply formatting according to these rules.
+
+Configure IDEs to automatically sort import statements. For VsCode use [TypeScript Import Sorter](https://marketplace.visualstudio.com/items?itemName=mike-co.import-sorter) plugin and it will pick up import settings defined in [.vscode/settings.json](../.vscode/settings.json).

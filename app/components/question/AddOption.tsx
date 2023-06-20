@@ -1,7 +1,9 @@
 import React from 'react'
+
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
-import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
+
 import styles from './AddOption.module.css'
+import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
 
 export default function AddOption(props: {
   icon?: IconDefinition
