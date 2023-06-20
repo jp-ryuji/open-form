@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 
 import Card from '../ui/Card'
 import AddOption from './AddOption'
+import ButtomNavigationBar from './BottomNavigationBar'
 import Question from './Question'
 import {
   questionTypeMultipleOptions as qTypeMultiOptions,
@@ -13,7 +14,7 @@ import styles from './QuestionForm.module.css'
 import QuestionOption from './QuestionOption'
 import { determineIcon } from './utils/utilities'
 
-export default function QuestionForm() {
+export default function QuestionForm(props: { onDeleteQuestion: () => void }) {
   const [selectedQuestionType, setSelectedQuestionType] = useState(
     qTypeText.short
   )
@@ -127,6 +128,9 @@ export default function QuestionForm() {
         </label>
         {showQuestionText()}
         {showQuestionOptions()}
+        <ButtomNavigationBar
+          onDeleteQuestion={() => props.onDeleteQuestion()}
+        />
       </div>
     </Card>
   )
