@@ -2,17 +2,16 @@
 
 import React, { useState } from 'react'
 
-import QuestionOption from './QuestionOption'
-import Question from './Question'
-import { determineIcon } from './utils/utilities'
-import AddOption from './AddOption'
-import {
-  questionTypeText as qTypeText,
-  questionTypeMultipleOptions as qTypeMultiOptions,
-} from './question-type'
 import Card from '../ui/Card'
-
+import AddOption from './AddOption'
+import Question from './Question'
+import {
+  questionTypeMultipleOptions as qTypeMultiOptions,
+  questionTypeText as qTypeText,
+} from './question-type'
 import styles from './QuestionForm.module.css'
+import QuestionOption from './QuestionOption'
+import { determineIcon } from './utils/utilities'
 
 export default function QuestionForm() {
   const [selectedQuestionType, setSelectedQuestionType] = useState(

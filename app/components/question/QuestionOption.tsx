@@ -1,9 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
+
 import { IconDefinition } from '@fortawesome/free-regular-svg-icons'
 import { faX } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { DuplicateWarning } from './DuplicateWarning'
 import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
 
