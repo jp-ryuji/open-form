@@ -1,11 +1,12 @@
 'use client'
 
+import { nanoid } from 'nanoid'
 import { useState } from 'react'
 
 import FunctionBar from '../function-bar/FunctionBar'
 import QuestionForm from '../question/QuestionForm'
 
-const questionsInitialState = [{ key: 1 }]
+const questionsInitialState = [{ key: nanoid() }]
 
 export default function QuestionForms() {
   const [questions, setQuestions] = useState(questionsInitialState)
@@ -14,15 +15,13 @@ export default function QuestionForms() {
     if (questions.length === 0) {
       setQuestions(questionsInitialState)
     } else {
-      const lastKey = questions[questions.length - 1].key
-      const newKey = lastKey + 1
-      const newQuestion = { key: newKey }
+      const newQuestion = { key: nanoid() }
       const newQuestions = [...questions, newQuestion]
       setQuestions(newQuestions)
     }
   }
 
-  const deleteQuestionFormHandler = (key: number) => {
+  const deleteQuestionFormHandler = (key: string) => {
     const newQuestions = questions.filter((question) => question.key !== key)
 
     setQuestions(newQuestions)
