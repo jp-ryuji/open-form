@@ -14,7 +14,7 @@ import styles from './QuestionForm.module.css'
 import QuestionOption from './QuestionOption'
 import { determineIcon } from './utils/utilities'
 
-export default function QuestionForm() {
+export default function QuestionForm(props: { onDeleteQuestion: () => void }) {
   const [selectedQuestionType, setSelectedQuestionType] = useState(
     qTypeText.short
   )
@@ -128,7 +128,9 @@ export default function QuestionForm() {
         </label>
         {showQuestionText()}
         {showQuestionOptions()}
-        <ButtomNavigationBar />
+        <ButtomNavigationBar
+          onDeleteQuestion={() => props.onDeleteQuestion()}
+        />
       </div>
     </Card>
   )
