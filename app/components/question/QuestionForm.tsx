@@ -11,10 +11,16 @@ import {
   questionTypeText as qTypeText,
 } from './question-type'
 import styles from './QuestionForm.module.css'
+import questionStyles from './Question.module.css'
+import cardStyles from '../ui/Card.module.css'
+
 import QuestionOption from './QuestionOption'
 import { determineIcon } from './utils/utilities'
 
-export default function QuestionForm(props: { onDeleteQuestion: () => void }) {
+export default function QuestionForm(props: {
+  onDeleteQuestion: () => void
+  id: string
+}) {
   const [selectedQuestionType, setSelectedQuestionType] = useState(
     qTypeText.short
   )
@@ -78,11 +84,12 @@ export default function QuestionForm(props: { onDeleteQuestion: () => void }) {
   const showQuestionOptions = () => {
     return isQTypeMultOptionsSelected && renderQuestionOptions()
   }
+
   const renderQuestionOptions = () => {
     const icon = determineIcon(selectedQuestionType)
 
     return (
-      <div className="flex flex-col">
+      <div className="mx-2 flex flex-col">
         {questionOptions.map((option, index) => {
           return (
             <QuestionOption
@@ -111,23 +118,29 @@ export default function QuestionForm(props: { onDeleteQuestion: () => void }) {
 
   return (
     <Card>
-      <Question />
-      <div>
-        <label>
-          Question Type:
-          <select
-            value={selectedQuestionType}
-            onChange={changeQuestionTypeHandler}
-          >
-            <option value={qTypeText.short}>Text (short)</option>
-            <option value={qTypeText.long}>Text (long)</option>
-            <option value={qTypeMultiOptions.radio}>Radio button</option>
-            <option value={qTypeMultiOptions.checkbox}>Checkbox</option>
-            <option value={qTypeMultiOptions.pulldown}>Pulldown</option>
-          </select>
-        </label>
-        {showQuestionText()}
-        {showQuestionOptions()}
+      <div className={cardStyles.cardBody}>
+        <div>
+          <Question />
+          <label className={questionStyles.questionType}>
+            Question Type:
+            <select
+              value={selectedQuestionType}
+              onChange={changeQuestionTypeHandler}
+            >
+              <option value={qTypeText.short}>Text (short)</option>
+              <option value={qTypeText.long}>Text (long)</option>
+              <option value={qTypeMultiOptions.radio}>Radio button</option>
+              <option value={qTypeMultiOptions.checkbox}>Checkbox</option>
+              <option value={qTypeMultiOptions.pulldown}>Pulldown</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          {showQuestionText()}
+          {showQuestionOptions()}
+        </div>
+      </div>
+      <div className={questionStyles.questionActions}>
         <ButtomNavigationBar
           onDeleteQuestion={() => props.onDeleteQuestion()}
         />

@@ -5,6 +5,8 @@ import { useState } from 'react'
 
 import FunctionBar from '../function-bar/FunctionBar'
 import QuestionForm from '../question/QuestionForm'
+import Card from '../ui/Card'
+import cardStyles from '../ui/Card.module.css'
 
 const questionsInitialState = [{ key: nanoid() }]
 
@@ -29,12 +31,19 @@ export default function QuestionForms() {
 
   return (
     <>
-      {questions.map((question) => (
-        <QuestionForm
-          key={question.key}
-          onDeleteQuestion={() => deleteQuestionFormHandler(question.key)}
-        />
-      ))}
+      {questions.length ? (
+        questions.map((question) => (
+          <QuestionForm
+            key={question.key}
+            id={question.key}
+            onDeleteQuestion={() => deleteQuestionFormHandler(question.key)}
+          />
+        ))
+      ) : (
+        <Card>
+          <div className={cardStyles.cardBody}>No question.</div>
+        </Card>
+      )}
       <FunctionBar onClick={addQuestionFormHandler} />
     </>
   )

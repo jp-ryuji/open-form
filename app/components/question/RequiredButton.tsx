@@ -4,7 +4,7 @@ import { faToggleOff, faToggleOn } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styles from './RequiredButton.module.css'
 
-export default function RequiredButton() {
+export default function RequiredButton(props: { className: string }) {
   const [isToggleOn, setIsToggleOn] = useState(false)
 
   const onClickHandler = () => {
@@ -12,10 +12,12 @@ export default function RequiredButton() {
   }
 
   return (
-    <FontAwesomeIcon
+    <button
       onClick={onClickHandler}
-      icon={isToggleOn ? faToggleOn : faToggleOff}
-      className={styles.toggle_button}
-    />
+      className={[props.className, 'flex', styles.toggle_button].join(' ')}
+    >
+      <span className="mr-2">Required</span>
+      <FontAwesomeIcon icon={isToggleOn ? faToggleOn : faToggleOff} />
+    </button>
   )
 }

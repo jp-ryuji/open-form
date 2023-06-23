@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 export function DuplicateWarning() {
   // TODO: Add a warning message with tooltip as Google form does
   return (
-    <div className="alert alert-warning">
+    <div className="text-red-500">
       <FontAwesomeIcon icon={faExclamationTriangle} />
     </div>
   )

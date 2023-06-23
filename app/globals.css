@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --color-text: hsl(0, 0%, 0%);
+  --color-light: hsl(200, 10%, 25%);
+  --font-size: 16px;
+  --primary-hue: 200;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -17,6 +18,7 @@
 } */
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-end-rgb));
+  color: var(--color-text);
+  background: hsl(var(--primary-hue), 50%, 98%);
+  font-size: var(--font-size);
 }

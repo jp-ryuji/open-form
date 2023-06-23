@@ -8,24 +8,28 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RequiredButton from './RequiredButton'
+import styles from './BottomNavigationBar.module.css'
 
 export default function BottomNavigationBar(props: {
   onDeleteQuestion: () => void
 }) {
   return (
-    <label className="mt-6 flex">
-      <div className="flex items-center">
-        <FontAwesomeIcon icon={faClone} className="ml-2" />
+    <div className={styles.bottomNavigationBar}>
+      <button className={styles.bottomNavigationBarButton}>
+        <FontAwesomeIcon icon={faClone} />
+      </button>
+      <button className={styles.bottomNavigationBarButton}>
         <FontAwesomeIcon
           icon={faX}
           className="ml-2"
           onClick={props.onDeleteQuestion}
         />
-        {/* FIXME: Add a gray vertical bar */}
-        <span className="ml-2">Required</span>
-        <RequiredButton />
-        <FontAwesomeIcon icon={faEllipsisVertical} className="ml-2" />
-      </div>
-    </label>
+      </button>
+      <span className={styles.bottomNavigationBarSeparator}></span>
+      <RequiredButton className={styles.bottomNavigationBarButton} />
+      <button className={styles.bottomNavigationBarButton}>
+        <FontAwesomeIcon icon={faEllipsisVertical} />
+      </button>
+    </div>
   )
 }

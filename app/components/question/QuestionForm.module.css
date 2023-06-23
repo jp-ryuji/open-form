@@ -2,13 +2,14 @@
   color: gray;
   position: relative;
   cursor: default;
+  padding-bottom: 6px;
 }
 
 .render_question_text::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -6px;
+  bottom: 0px;
   width: 100%;
   height: 1px;
   background-color: gray;

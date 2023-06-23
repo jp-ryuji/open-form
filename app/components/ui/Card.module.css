@@ -1,7 +1,26 @@
 .card {
+  width: 36rem;
+  max-width: calc(100vw - 24px);
   background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  padding: 10px 20px 30px;
-  margin-bottom: 10px;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(0, 0%, 90%);
+  box-shadow: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.1) 0px 1px 3px 0px, hsla(0, 0%, 0%, 0.1) 0px 1px 2px -1px;
+}
+
+.card + .card {
+  margin-top: 1rem;
+}
+
+.card:focus-within {
+  border-color: hsl(210, 80%, 55%);
+  box-shadow: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.2) 0px 2px 6px 0px, hsla(0, 0%, 0%, 0.2) 0px 2px 4px -2px;
+}
+
+
+.cardBody {
+  padding: 1.25rem 1.25rem;
+}
+
+.cardBody > * + * {
+  margin-top: .75rem;
 }

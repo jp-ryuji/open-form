@@ -1,4 +1,11 @@
 .toggle_button {
   margin-left: 2px;
+}
+
+.toggle_button svg {
   font-size: 24px;
+}
+
+.toggle_button [data-icon="toggle-on"] {
+  color: green;
 }

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { DuplicateWarning } from './DuplicateWarning'
 import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
+import styles from './Question.module.css'
 
 export default function QuestionOption(props: {
   icon?: IconDefinition
@@ -43,19 +44,19 @@ export default function QuestionOption(props: {
   const showDeleteIcon = () => {
     return (
       hasMultipleOptions && (
-        <div className="flex items-center">
+        <button className={[styles.questionOptionButton].join(' ')}>
           <FontAwesomeIcon
             icon={faX}
             className="ml-2 cursor-pointer"
             onClick={props.onDelete}
           />
-        </div>
+        </button>
       )
     )
   }
 
   return (
-    <label className="items-container mb-2 flex">
+    <label className={styles.questionOption}>
       <MultipleOptionsIconOrNum icon={props.icon} num={props.num} />
       <input
         type="text"
@@ -63,6 +64,7 @@ export default function QuestionOption(props: {
         defaultValue={props.defaultValue}
         onChange={changeQuestionOptionHandler}
         onBlur={updateQuestionOptionHandler}
+        className="mr-auto"
       />
       {showDuplicateWarning()}
       {showDeleteIcon()}

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import styles from './Question.module.css'
 
 /* Returns an input field for a question */
 export default function Question() {
@@ -15,9 +16,10 @@ export default function Question() {
   return (
     <input
       type="text"
-      placeholder="question"
+      placeholder="Question?"
       value={question}
       onChange={changeQuestionHandler}
+      className={styles.question}
     />
   )
 }
