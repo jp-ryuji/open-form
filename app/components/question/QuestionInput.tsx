@@ -1,16 +1,21 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import styles from './Question.module.css'
+import { Question } from '@/app/store'
 
 /* Returns an input field for a question */
-export default function Question() {
-  const [question, setQuestion] = useState('')
-
+export default function QuestionInput({
+  question,
+  onChange,
+}: {
+  question: string
+  onChange: (question: string) => void
+}) {
   const changeQuestionHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setQuestion(event.target.value)
+    onChange(event.target.value)
   }
 
   return (
