@@ -1,10 +1,10 @@
 'use client'
 
-import AddQuestionButton from './AddQuestionButton'
 import QuestionForm from '../question/QuestionForm'
 import { Card, CardBody } from '../ui/Card'
 import { Question, createQuestion, useQuestionStore } from '@/app/store'
 import { nanoid } from 'nanoid'
+import { ActionsBar, ActionsBarContainer } from './ActionsBar'
 
 export default function QuestionForms() {
   const questionStore = useQuestionStore()
@@ -23,27 +23,29 @@ export default function QuestionForms() {
   }
 
   return (
-    <>
-      {questions.length ? (
-        questions.map((question, index) => (
-          <QuestionForm
-            key={question.id}
-            question={question}
-            onDuplicateQuestion={(duplicate) =>
-              addQuestionFormHandler({ ...duplicate, id: nanoid() })
-            }
-            onDeleteQuestion={() => deleteQuestionFormHandler(index)}
-            onUpdate={(question) => updateQuestionFormHandler(index, question)}
-          />
-        ))
-      ) : (
-        <Card>
-          <CardBody>No question.</CardBody>
-        </Card>
-      )}
-      <div className="mt-6 flex justify-end">
-        <AddQuestionButton onClick={addQuestionFormHandler} />
+    <ActionsBarContainer>
+      <div className="pb-32">
+        {questions.length ? (
+          questions.map((question, index) => (
+            <QuestionForm
+              key={question.id}
+              question={question}
+              onDuplicateQuestion={(duplicate) =>
+                addQuestionFormHandler({ ...duplicate, id: nanoid() })
+              }
+              onDeleteQuestion={() => deleteQuestionFormHandler(index)}
+              onUpdate={(question) =>
+                updateQuestionFormHandler(index, question)
+              }
+            />
+          ))
+        ) : (
+          <Card>
+            <CardBody>No question.</CardBody>
+          </Card>
+        )}
       </div>
-    </>
+      <ActionsBar onAdd={addQuestionFormHandler} />
+    </ActionsBarContainer>
   )
 }
