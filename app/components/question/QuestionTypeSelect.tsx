@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler } from 'react'
 import questionStyles from './Question.module.css'
 
 import {
@@ -6,8 +6,11 @@ import {
   questionTypeText as qTypeText,
 } from './question-type'
 
-export default function QuestionForm({value, onChange}: {
-  value: string;
+export default function QuestionForm({
+  value,
+  onChange,
+}: {
+  value: string
   onChange: ChangeEventHandler<HTMLSelectElement>
 }) {
   return (

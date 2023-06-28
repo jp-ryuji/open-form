@@ -42,7 +42,7 @@ export default function QuestionForm(props: {
       ...props.question,
       questionOptions: questionOptions.map((q) => q.value),
     })
-  }, [questionOptions])
+  }, [props, questionOptions])
 
   const changeQuestionTypeHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
