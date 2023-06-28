@@ -1,50 +1,49 @@
 'use client'
 
-import { nanoid } from 'nanoid'
-import { useState } from 'react'
-
-import FunctionBar from '../function-bar/FunctionBar'
+import AddQuestionButton from './AddQuestionButton'
 import QuestionForm from '../question/QuestionForm'
-import Card from '../ui/Card'
-import cardStyles from '../ui/Card.module.css'
-
-const questionsInitialState = [{ key: nanoid() }]
+import { Card, CardBody } from '../ui/Card'
+import { Question, createQuestion, useQuestionStore } from '@/app/store'
+import { nanoid } from 'nanoid'
 
 export default function QuestionForms() {
-  const [questions, setQuestions] = useState(questionsInitialState)
+  const questionStore = useQuestionStore()
+  const questions = questionStore.questions
 
-  const addQuestionFormHandler = () => {
-    if (questions.length === 0) {
-      setQuestions(questionsInitialState)
-    } else {
-      const newQuestion = { key: nanoid() }
-      const newQuestions = [...questions, newQuestion]
-      setQuestions(newQuestions)
-    }
+  const addQuestionFormHandler = (question?: Question) => {
+    questionStore.addQuestion(question || createQuestion())
   }
 
-  const deleteQuestionFormHandler = (key: string) => {
-    const newQuestions = questions.filter((question) => question.key !== key)
+  const deleteQuestionFormHandler = (index: number) => {
+    questionStore.deleteQuestion(index)
+  }
 
-    setQuestions(newQuestions)
+  const updateQuestionFormHandler = (index: number, question: Question) => {
+    questionStore.updateQuestion(index, question)
   }
 
   return (
     <>
       {questions.length ? (
-        questions.map((question) => (
+        questions.map((question, index) => (
           <QuestionForm
-            key={question.key}
-            id={question.key}
-            onDeleteQuestion={() => deleteQuestionFormHandler(question.key)}
+            key={question.id}
+            question={question}
+            onDuplicateQuestion={(duplicate) =>
+              addQuestionFormHandler({ ...duplicate, id: nanoid() })
+            }
+            onDeleteQuestion={() => deleteQuestionFormHandler(index)}
+            onUpdate={(question) => updateQuestionFormHandler(index, question)}
           />
         ))
       ) : (
         <Card>
-          <div className={cardStyles.cardBody}>No question.</div>
+          <CardBody>No question.</CardBody>
         </Card>
       )}
-      <FunctionBar onClick={addQuestionFormHandler} />
+      <div className="mt-6 flex justify-end">
+        <AddQuestionButton onClick={addQuestionFormHandler} />
+      </div>
     </>
   )
 }

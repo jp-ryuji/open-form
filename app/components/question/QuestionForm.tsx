@@ -1,49 +1,60 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import Card from '../ui/Card'
-import AddOption from './AddOption'
-import ButtomNavigationBar from './BottomNavigationBar'
+import { Card, CardBody } from '../ui/Card'
+import AddQuestionOption from './AddQuestionOption'
+import QuestionFormBottomBar from './QuestionFormBottomBar'
 import Question from './Question'
+import QuestionTypeSelect from './QuestionTypeSelect'
 import {
   questionTypeMultipleOptions as qTypeMultiOptions,
   questionTypeText as qTypeText,
 } from './question-type'
 import styles from './QuestionForm.module.css'
 import questionStyles from './Question.module.css'
-import cardStyles from '../ui/Card.module.css'
 
 import QuestionOption from './QuestionOption'
 import { determineIcon } from './utils/utilities'
+import { Question as QuestionType } from '@/app/store'
 
 export default function QuestionForm(props: {
+  question: QuestionType
   onDeleteQuestion: () => void
-  id: string
+  onDuplicateQuestion: (question: QuestionType) => void
+  onUpdate: (question: QuestionType) => void
 }) {
-  const [selectedQuestionType, setSelectedQuestionType] = useState(
-    qTypeText.short
+  const isQTypeTextSelected = Object.values(qTypeText).includes(
+    props.question.questionType
   )
-  const [questionOptions, setQuestionOptions] = useState([
-    {
-      key: 1,
-      value: 'Option 1',
-    },
-  ])
+  const isQTypeMultOptionsSelected = Object.values(qTypeMultiOptions).includes(
+    props.question.questionType
+  )
+  const [questionOptions, setQuestionOptions] = useState(() =>
+    props.question.questionOptions.map((option, index) => ({
+      key: index,
+      value: option,
+    }))
+  )
 
-  const isQTypeTextSelected =
-    Object.values(qTypeText).includes(selectedQuestionType)
-  const isQTypeMultOptionsSelected =
-    Object.values(qTypeMultiOptions).includes(selectedQuestionType)
+  useEffect(() => {
+    props.onUpdate({
+      ...props.question,
+      questionOptions: questionOptions.map((q) => q.value),
+    })
+  }, [questionOptions])
 
   const changeQuestionTypeHandler = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setSelectedQuestionType(event.target.value)
+    props.onUpdate({
+      ...props.question,
+      questionType: event.target.value as QuestionType['questionType'],
+    })
   }
 
   const addQuestionOptionHandler = () => {
-    const lastOptionKey = questionOptions[questionOptions.length - 1].key
+    const lastOptionKey = questionOptions[questionOptions.length - 1]?.key || 0
     const newKey = lastOptionKey + 1
     const newValue = 'Option ' + newKey
     const newOption = { key: newKey, value: newValue }
@@ -69,80 +80,69 @@ export default function QuestionForm(props: {
     setQuestionOptions(newQuestionOptions)
   }
 
-  // FIXME: Consider renaming this function
-  const showQuestionText = () => {
-    return isQTypeTextSelected && renderQuestionText()
-  }
-  const renderQuestionText = () => {
-    return (
-      <p className={styles.render_question_text}>
-        Text ({selectedQuestionType})
-      </p>
-    )
+  const updateQuestion = (question: Partial<QuestionType>) => {
+    props.onUpdate({ ...props.question, ...question })
   }
 
-  const showQuestionOptions = () => {
-    return isQTypeMultOptionsSelected && renderQuestionOptions()
-  }
+  const showAnswers = () => {
+    if (isQTypeTextSelected) {
+      return (
+        <p className={styles.render_question_text}>
+          Text ({props.question.questionType})
+        </p>
+      )
+    }
 
-  const renderQuestionOptions = () => {
-    const icon = determineIcon(selectedQuestionType)
+    if (isQTypeMultOptionsSelected) {
+      const icon = determineIcon(props.question.questionType)
 
-    return (
-      <div className="mx-2 flex flex-col">
-        {questionOptions.map((option, index) => {
-          return (
-            <QuestionOption
-              key={option.key}
-              icon={icon}
-              num={index + 1}
-              defaultValue={option.value}
-              otherQuestionOptions={questionOptions.filter(
-                (op) => op.key !== option.key
-              )}
-              onUpdate={(value) =>
-                updateQuestionOptionHandler(option.key, value)
-              }
-              onDelete={() => deleteQuestionOptionHandler(option.key)}
-            />
-          )
-        })}
-        <AddOption
-          icon={icon}
-          num={questionOptions.length + 1}
-          onClick={addQuestionOptionHandler}
-        />
-      </div>
-    )
+      return (
+        <div className="mx-2 flex flex-col">
+          {questionOptions.map((option, index) => {
+            return (
+              <QuestionOption
+                key={option.key}
+                icon={icon}
+                num={index + 1}
+                defaultValue={option.value}
+                otherQuestionOptions={questionOptions.filter(
+                  (op) => op.key !== option.key
+                )}
+                onUpdate={(value) =>
+                  updateQuestionOptionHandler(option.key, value)
+                }
+                onDelete={() => deleteQuestionOptionHandler(option.key)}
+              />
+            )
+          })}
+          <AddQuestionOption
+            icon={icon}
+            num={questionOptions.length + 1}
+            onClick={addQuestionOptionHandler}
+          />
+        </div>
+      )
+    }
+
+    return null
   }
 
   return (
     <Card>
-      <div className={cardStyles.cardBody}>
-        <div>
-          <Question />
-          <label className={questionStyles.questionType}>
-            Question Type:
-            <select
-              value={selectedQuestionType}
-              onChange={changeQuestionTypeHandler}
-            >
-              <option value={qTypeText.short}>Text (short)</option>
-              <option value={qTypeText.long}>Text (long)</option>
-              <option value={qTypeMultiOptions.radio}>Radio button</option>
-              <option value={qTypeMultiOptions.checkbox}>Checkbox</option>
-              <option value={qTypeMultiOptions.pulldown}>Pulldown</option>
-            </select>
-          </label>
-        </div>
-        <div>
-          {showQuestionText()}
-          {showQuestionOptions()}
-        </div>
-      </div>
+      <CardBody>
+        <Question />
+        <QuestionTypeSelect
+          value={props.question.questionType}
+          onChange={changeQuestionTypeHandler}
+        />
+        <div>{showAnswers()}</div>
+      </CardBody>
       <div className={questionStyles.questionActions}>
-        <ButtomNavigationBar
+        <QuestionFormBottomBar
+          required={props.question.required}
           onDeleteQuestion={() => props.onDeleteQuestion()}
+          onDuplicateQuestion={() => props.onDuplicateQuestion(props.question)}
+          onRequired={(required) => updateQuestion({ required })}
         />
       </div>
     </Card>
