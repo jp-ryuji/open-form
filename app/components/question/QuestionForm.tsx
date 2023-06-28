@@ -47,6 +47,7 @@ export default function QuestionForm({
       ...question,
       questionOptions: questionOptions.map((q) => q.value),
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionOptions])
 
   const changeQuestionTypeHandler = (
