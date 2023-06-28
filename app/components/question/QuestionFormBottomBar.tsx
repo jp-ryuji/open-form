@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import RequiredCheckbox from './RequiredCheckbox'
 import styles from './QuestionFormBottomBar.module.css'
+import { Tooltip } from '../ui/Tooltip'
 
 export default function BottomNavigationBar(props: {
   onDeleteQuestion: () => void
@@ -18,18 +19,22 @@ export default function BottomNavigationBar(props: {
 }) {
   return (
     <div className={styles.bottomNavigationBar}>
-      <button
-        onClick={props.onDuplicateQuestion}
-        className={styles.bottomNavigationBarButton}
-      >
-        <FontAwesomeIcon icon={faClone} />
-      </button>
-      <button
-        className={styles.bottomNavigationBarButton}
-        onClick={props.onDeleteQuestion}
-      >
-        <FontAwesomeIcon icon={faX} className="ml-2" />
-      </button>
+      <Tooltip label="Duplicate">
+        <button
+          onClick={props.onDuplicateQuestion}
+          className={styles.bottomNavigationBarButton}
+        >
+          <FontAwesomeIcon icon={faClone} />
+        </button>
+      </Tooltip>
+      <Tooltip label="Delete">
+        <button
+          className={styles.bottomNavigationBarButton}
+          onClick={props.onDeleteQuestion}
+        >
+          <FontAwesomeIcon icon={faX} />
+        </button>
+      </Tooltip>
       <span className={styles.bottomNavigationBarSeparator}></span>
       <RequiredCheckbox
         value={props.required}
