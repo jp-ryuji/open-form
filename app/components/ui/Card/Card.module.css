@@ -11,9 +11,9 @@
   margin-top: 1rem;
 }
 
-.card:focus-within {
+.cardHighlight {
   border-color: hsl(210, 80%, 55%);
-  box-shadow: hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0) 0px 0px 0px 0px, hsla(0, 0%, 0%, 0.2) 0px 2px 6px 0px, hsla(0, 0%, 0%, 0.2) 0px 2px 4px -2px;
+  box-shadow: hsla(210, 80%, 55%, 0.2) 0px 0px 0px 0px, hsla(210, 80%, 55%, 0.2) 0px 0px 0px 0px, hsla(210, 80%, 50%, 0.2) 0px 2px 6px 0px, hsla(210, 80%, 50%, 0.2) 0px 2px 4px -2px;
 }
 
 

@@ -10,11 +10,15 @@ import { DuplicateWarning } from './DuplicateWarning'
 import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
 import styles from './Question.module.css'
 
-export default function QuestionOption(props: {
+export default function QuestionOption({
+  editable,
+  ...props
+}: {
   icon?: IconDefinition
   num: number
   defaultValue: string
   otherQuestionOptions: any[]
+  editable: boolean
   onUpdate: (value: string) => void
   onDelete: () => void
 }) {
@@ -66,8 +70,8 @@ export default function QuestionOption(props: {
         onBlur={updateQuestionOptionHandler}
         className="mr-auto"
       />
-      {showDuplicateWarning()}
-      {showDeleteIcon()}
+      {editable && showDuplicateWarning()}
+      {editable && showDeleteIcon()}
     </label>
   )
 }

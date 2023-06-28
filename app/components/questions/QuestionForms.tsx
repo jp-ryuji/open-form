@@ -22,6 +22,11 @@ export default function QuestionForms() {
     questionStore.updateQuestion(index, question)
   }
 
+  const selectQuestionFormHandler = (question: Question) => {
+    console.log('select', question)
+    questionStore.selectQuestion(question)
+  }
+
   return (
     <ActionsBarContainer>
       <div className="pb-32">
@@ -30,6 +35,7 @@ export default function QuestionForms() {
             <QuestionForm
               key={question.id}
               question={question}
+              selected={question.id === questionStore.selectedQuestion}
               onDuplicateQuestion={(duplicate) =>
                 addQuestionFormHandler({ ...duplicate, id: nanoid() })
               }
@@ -37,6 +43,9 @@ export default function QuestionForms() {
               onUpdate={(question) =>
                 updateQuestionFormHandler(index, question)
               }
+              onSelect={() => {
+                selectQuestionFormHandler(question)
+              }}
             />
           ))
         ) : (

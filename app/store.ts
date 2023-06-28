@@ -12,10 +12,12 @@ export interface Question {
 }
 
 interface QuestionStore {
+  selectedQuestion: string | undefined
   questions: Question[]
   addQuestion: (question: Question) => void
   updateQuestion: (index: number, question: Partial<Question>) => void
   deleteQuestion: (index: number) => void
+  selectQuestion: (question: Question) => void
 }
 
 const STORAGE_KEY = 'QUESTIONS'
@@ -42,6 +44,7 @@ export const createQuestion = () =>
   } as Question)
 
 export const useQuestionStore = create<QuestionStore>((set) => ({
+  selectedQuestion: undefined,
   questions: loadQuestions() || [createQuestion()],
   addQuestion: (question: Question) =>
     set((state) => ({ questions: [...state.questions, question] })),
@@ -58,6 +61,8 @@ export const useQuestionStore = create<QuestionStore>((set) => ({
         questions: state.questions.filter((_, _index) => index !== _index),
       }
     }),
+  selectQuestion: (question: Question) =>
+    set(() => ({ selectedQuestion: question.id })),
 }))
 
 useQuestionStore.subscribe(({ questions }) => {

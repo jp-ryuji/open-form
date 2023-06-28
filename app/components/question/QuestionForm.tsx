@@ -23,11 +23,15 @@ export default function QuestionForm({
   onDeleteQuestion,
   onDuplicateQuestion,
   onUpdate,
+  onSelect,
+  selected,
 }: {
   question: QuestionType
   onDeleteQuestion: () => void
   onDuplicateQuestion: (question: QuestionType) => void
   onUpdate: (question: QuestionType) => void
+  onSelect: () => void
+  selected: boolean
 }) {
   const isQTypeTextSelected = Object.values(qTypeText).includes(
     question.questionType
@@ -90,7 +94,7 @@ export default function QuestionForm({
     onUpdate({ ...question, ...update })
   }
 
-  const showAnswers = () => {
+  const showAnswers = (selected: boolean) => {
     if (isQTypeTextSelected) {
       return (
         <p className={styles.render_question_text}>
@@ -111,6 +115,7 @@ export default function QuestionForm({
                 icon={icon}
                 num={index + 1}
                 defaultValue={option.value}
+                editable={selected}
                 otherQuestionOptions={questionOptions.filter(
                   (op) => op.key !== option.key
                 )}
@@ -121,11 +126,13 @@ export default function QuestionForm({
               />
             )
           })}
-          <AddQuestionOption
-            icon={icon}
-            num={questionOptions.length + 1}
-            onClick={addQuestionOptionHandler}
-          />
+          {selected && (
+            <AddQuestionOption
+              icon={icon}
+              num={questionOptions.length + 1}
+              onClick={addQuestionOptionHandler}
+            />
+          )}
         </div>
       )
     }
@@ -134,26 +141,37 @@ export default function QuestionForm({
   }
 
   return (
-    <Card>
-      <CardBody>
-        <QuestionInput
-          question={question.question}
-          onChange={(update) => onUpdate({ ...question, question: update })}
-        />
-        <QuestionTypeSelect
-          value={question.questionType}
-          onChange={changeQuestionTypeHandler}
-        />
-        <div>{showAnswers()}</div>
-      </CardBody>
-      <div className={questionStyles.questionActions}>
-        <QuestionFormBottomBar
-          required={question.required}
-          onDeleteQuestion={() => onDeleteQuestion()}
-          onDuplicateQuestion={() => onDuplicateQuestion(question)}
-          onRequired={(required) => updateQuestion({ required })}
-        />
-      </div>
-    </Card>
+    <div
+      className={[selected ? 'selected' : '', 'mb-4'].join(' ')}
+      onClick={() => selected || onSelect()}
+    >
+      <Card highlight={selected}>
+        <CardBody>
+          <div>
+            <QuestionInput
+              question={question.question}
+              onChange={(update) => onUpdate({ ...question, question: update })}
+            />
+            {selected && (
+              <QuestionTypeSelect
+                value={question.questionType}
+                onChange={changeQuestionTypeHandler}
+              />
+            )}
+          </div>
+          <div>{showAnswers(selected)}</div>
+        </CardBody>
+        {selected && (
+          <div className={questionStyles.questionActions}>
+            <QuestionFormBottomBar
+              required={question.required}
+              onDeleteQuestion={() => onDeleteQuestion()}
+              onDuplicateQuestion={() => onDuplicateQuestion(question)}
+              onRequired={(required) => updateQuestion({ required })}
+            />
+          </div>
+        )}
+      </Card>
+    </div>
   )
 }
