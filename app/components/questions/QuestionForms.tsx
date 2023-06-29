@@ -5,10 +5,14 @@ import { Card, CardBody } from '../ui/Card'
 import { Question, createQuestion, useQuestionStore } from '@/app/store'
 import { nanoid } from 'nanoid'
 import { ActionsBar, ActionsBarContainer } from './ActionsBar'
+import { useState } from 'react'
 
 export default function QuestionForms() {
   const questionStore = useQuestionStore()
   const questions = questionStore.questions
+  const [actionBarTop, setActionsBarTop] = useState<number | undefined>(
+    undefined
+  )
 
   const addQuestionFormHandler = (question?: Question) => {
     questionStore.addQuestion(question || createQuestion())
@@ -23,8 +27,13 @@ export default function QuestionForms() {
   }
 
   const selectQuestionFormHandler = (question: Question) => {
-    console.log('select', question)
     questionStore.selectQuestion(question)
+  }
+
+  const setActionsBarPosition = (el?: Element) => {
+    setTimeout(() => {
+      setActionsBarTop((el?.getBoundingClientRect().y || 0) + window.scrollY)
+    }, 100)
   }
 
   return (
@@ -40,11 +49,10 @@ export default function QuestionForms() {
                 addQuestionFormHandler({ ...duplicate, id: nanoid() })
               }
               onDeleteQuestion={() => deleteQuestionFormHandler(index)}
-              onUpdate={(question) =>
-                updateQuestionFormHandler(index, question)
-              }
-              onSelect={() => {
-                selectQuestionFormHandler(question)
+              onUpdate={(update) => updateQuestionFormHandler(index, update)}
+              onSelect={(selected, el) => {
+                selectQuestionFormHandler(selected)
+                setActionsBarPosition(el)
               }}
             />
           ))
@@ -54,7 +62,7 @@ export default function QuestionForms() {
           </Card>
         )}
       </div>
-      <ActionsBar onAdd={addQuestionFormHandler} />
+      <ActionsBar onAdd={addQuestionFormHandler} top={actionBarTop} />
     </ActionsBarContainer>
   )
 }

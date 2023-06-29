@@ -30,7 +30,7 @@ export default function QuestionForm({
   onDeleteQuestion: () => void
   onDuplicateQuestion: (question: QuestionType) => void
   onUpdate: (question: QuestionType) => void
-  onSelect: () => void
+  onSelect: (question: QuestionType, el: HTMLElement) => void
   selected: boolean
 }) {
   const isQTypeTextSelected = Object.values(qTypeText).includes(
@@ -143,7 +143,7 @@ export default function QuestionForm({
   return (
     <div
       className={[selected ? 'selected' : '', 'mb-4'].join(' ')}
-      onClick={() => selected || onSelect()}
+      onClick={(e) => selected || onSelect(question, e.currentTarget)}
     >
       <Card highlight={selected}>
         <CardBody>

@@ -3,9 +3,16 @@ import styles from './ActionsBar.module.css'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 
-export const ActionsBar = ({ onAdd }: { onAdd: () => void }) => {
+export const ActionsBar = ({
+  onAdd,
+  top: fixedTop,
+}: {
+  onAdd: () => void
+  top?: number
+}) => {
   const [top, setTop] = useState(0)
   const updateTop = () => {
+    if (fixedTop) return
     setTop(window.scrollY)
   }
 
@@ -13,7 +20,12 @@ export const ActionsBar = ({ onAdd }: { onAdd: () => void }) => {
     window.addEventListener('scroll', updateTop)
 
     return () => window.removeEventListener('scroll', updateTop)
-  }, [])
+  })
+
+  useEffect(() => {
+    console.log({ fixedTop })
+    fixedTop && setTop(fixedTop)
+  }, [fixedTop])
 
   return (
     <ul className={styles.actionsBar} style={{ top }}>
