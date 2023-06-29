@@ -47,7 +47,22 @@ export const useQuestionStore = create<QuestionStore>((set) => ({
   selectedQuestion: undefined,
   questions: loadQuestions() || [createQuestion()],
   addQuestion: (question: Question) =>
-    set((state) => ({ questions: [...state.questions, question] })),
+    set((state) => {
+      if (!state.selectedQuestion)
+        return { questions: [...state.questions, question] }
+
+      // Add after selected
+      const selectedIndex = state.questions.findIndex(
+        (q) => q.id === state.selectedQuestion
+      )
+      return {
+        questions: [
+          ...state.questions.slice(0, selectedIndex + 1),
+          question,
+          ...state.questions.slice(selectedIndex + 1),
+        ],
+      }
+    }),
   updateQuestion: (index: number, question: Partial<Question>) =>
     set((state) => {
       const updatedQuestion = { ...state.questions[index], ...question }
