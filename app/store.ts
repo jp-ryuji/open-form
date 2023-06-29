@@ -39,7 +39,7 @@ export const createQuestion = () =>
     id: nanoid(),
     question: '',
     questionType: 'short',
-    questionOptions: [],
+    questionOptions: ['Option 1'],
     required: true,
   } as Question)
 

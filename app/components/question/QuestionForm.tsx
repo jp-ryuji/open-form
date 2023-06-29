@@ -64,7 +64,7 @@ export default function QuestionForm({
   }
 
   const addQuestionOptionHandler = () => {
-    const lastOptionKey = questionOptions[questionOptions.length - 1]?.key || 0
+    const lastOptionKey = questionOptions.length
     const newKey = lastOptionKey + 1
     const newValue = 'Option ' + newKey
     const newOption = { key: newKey, value: newValue }
