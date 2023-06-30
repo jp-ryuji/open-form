@@ -1,3 +1,7 @@
+.questionForm {
+  position: relative;
+}
+
 .question {
   display: block;
   width: 100%;
@@ -68,4 +72,16 @@
 .questionOptionButton:hover, .questionOptionButton:focus {
   outline: none;
   opacity: 1;
+}
+
+
+.questionDragTrigger {
+  padding: 2px 0;
+  text-align: center;
+  color: hsl(var(--primary-hue), 0%, 85%);
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }

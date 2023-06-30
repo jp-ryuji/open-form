@@ -6,6 +6,7 @@ import { Question, createQuestion, useQuestionStore } from '@/app/store'
 import { nanoid } from 'nanoid'
 import { ActionsBar, ActionsBarContainer } from './ActionsBar'
 import { useState } from 'react'
+import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd'
 import Button from '../ui/Card/Button/Button'
 
 export default function QuestionForms() {
@@ -37,31 +38,47 @@ export default function QuestionForms() {
     }, 100)
   }
 
+  const onDragEnd = ({ destination, source }: DropResult) => {
+    if (!destination) return
+    questionStore.reorderQuestion(source.index, destination.index)
+  }
+
   return (
     <ActionsBarContainer>
       <div className="pb-32">
-        {questions.length ? (
-          questions.map((question, index) => (
-            <QuestionForm
-              key={question.id}
-              question={question}
-              selected={question.id === questionStore.selectedQuestion}
-              onDuplicateQuestion={(duplicate) =>
-                addQuestionFormHandler({ ...duplicate, id: nanoid() })
-              }
-              onDeleteQuestion={() => deleteQuestionFormHandler(index)}
-              onUpdate={(update) => updateQuestionFormHandler(index, update)}
-              onSelect={(selected, el) => {
-                selectQuestionFormHandler(selected)
-                setActionsBarPosition(el)
-              }}
-            />
-          ))
-        ) : (
-          <Card>
-            <CardBody>No question.</CardBody>
-          </Card>
-        )}
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided) =>
+              questions.length ? (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {questions.map((question, index) => (
+                    <QuestionForm
+                      index={index}
+                      key={question.id}
+                      question={question}
+                      selected={question.id === questionStore.selectedQuestion}
+                      onDuplicateQuestion={(duplicate) =>
+                        addQuestionFormHandler({ ...duplicate, id: nanoid() })
+                      }
+                      onDeleteQuestion={() => deleteQuestionFormHandler(index)}
+                      onUpdate={(update) =>
+                        updateQuestionFormHandler(index, update)
+                      }
+                      onSelect={(selected, el) => {
+                        selectQuestionFormHandler(selected)
+                        setActionsBarPosition(el)
+                      }}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <Card>
+                  <CardBody>No question.</CardBody>
+                </Card>
+              )
+            }
+          </Droppable>
+        </DragDropContext>
         <div className="flex justify-end mt-6">
           <Button onClick={() => console.log({ questions })}>Submit</Button>
         </div>

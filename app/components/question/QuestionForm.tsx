@@ -11,12 +11,15 @@ import {
   questionTypeMultipleOptions as qTypeMultiOptions,
   questionTypeText as qTypeText,
 } from './question-type'
+import { faGripHorizontal } from '@fortawesome/free-solid-svg-icons'
 import styles from './QuestionForm.module.css'
 import questionStyles from './Question.module.css'
 
 import QuestionOption from './QuestionOption'
 import { determineIcon } from './utils/utilities'
 import { Question as QuestionType } from '@/app/store'
+import { Draggable } from 'react-beautiful-dnd'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function QuestionForm({
   question,
@@ -25,6 +28,7 @@ export default function QuestionForm({
   onUpdate,
   onSelect,
   selected,
+  index,
 }: {
   question: QuestionType
   onDeleteQuestion: () => void
@@ -32,6 +36,7 @@ export default function QuestionForm({
   onUpdate: (question: QuestionType) => void
   onSelect: (question: QuestionType, el: HTMLElement) => void
   selected: boolean
+  index: number
 }) {
   const isQTypeTextSelected = Object.values(qTypeText).includes(
     question.questionType
@@ -141,37 +146,58 @@ export default function QuestionForm({
   }
 
   return (
-    <div
-      className={[selected ? 'selected' : '', 'mb-4'].join(' ')}
-      onClick={(e) => selected || onSelect(question, e.currentTarget)}
-    >
-      <Card highlight={selected}>
-        <CardBody>
-          <div>
-            <QuestionInput
-              question={question.question}
-              onChange={(update) => onUpdate({ ...question, question: update })}
-            />
+    <Draggable key={question.id} index={index} draggableId={question.id}>
+      {(provided, snapshot) => (
+        <div
+          className={[
+            selected ? 'selected' : '',
+            'mb-4',
+            questionStyles.questionForm,
+          ].join(' ')}
+          onClick={(e) => selected || onSelect(question, e.currentTarget)}
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <Card highlight={selected}>
+            <div
+              className={[
+                questionStyles.questionDragTrigger,
+                selected || 'hidden',
+              ].join(' ')}
+            >
+              <FontAwesomeIcon icon={faGripHorizontal} />
+            </div>
+            <CardBody>
+              <div>
+                <QuestionInput
+                  question={question.question}
+                  onChange={(update) =>
+                    onUpdate({ ...question, question: update })
+                  }
+                />
+                {selected && (
+                  <QuestionTypeSelect
+                    value={question.questionType}
+                    onChange={changeQuestionTypeHandler}
+                  />
+                )}
+              </div>
+              <div>{showAnswers(selected)}</div>
+            </CardBody>
             {selected && (
-              <QuestionTypeSelect
-                value={question.questionType}
-                onChange={changeQuestionTypeHandler}
-              />
+              <div className={questionStyles.questionActions}>
+                <QuestionFormBottomBar
+                  required={question.required}
+                  onDeleteQuestion={() => onDeleteQuestion()}
+                  onDuplicateQuestion={() => onDuplicateQuestion(question)}
+                  onRequired={(required) => updateQuestion({ required })}
+                />
+              </div>
             )}
-          </div>
-          <div>{showAnswers(selected)}</div>
-        </CardBody>
-        {selected && (
-          <div className={questionStyles.questionActions}>
-            <QuestionFormBottomBar
-              required={question.required}
-              onDeleteQuestion={() => onDeleteQuestion()}
-              onDuplicateQuestion={() => onDuplicateQuestion(question)}
-              onRequired={(required) => updateQuestion({ required })}
-            />
-          </div>
-        )}
-      </Card>
-    </div>
+          </Card>
+        </div>
+      )}
+    </Draggable>
   )
 }

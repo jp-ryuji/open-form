@@ -18,6 +18,7 @@ interface QuestionStore {
   updateQuestion: (index: number, question: Partial<Question>) => void
   deleteQuestion: (index: number) => void
   selectQuestion: (question: Question) => void
+  reorderQuestion: (sourceIndex: number, destIndex: number) => void
 }
 
 const STORAGE_KEY = 'QUESTIONS'
@@ -78,6 +79,13 @@ export const useQuestionStore = create<QuestionStore>((set) => ({
     }),
   selectQuestion: (question: Question) =>
     set(() => ({ selectedQuestion: question.id })),
+  reorderQuestion: (sourceIndex: number, destIndex: number) =>
+    set((state) => {
+      const questions = Array.from(state.questions)
+      const [removed] = questions.splice(sourceIndex, 1)
+      questions.splice(destIndex, 0, removed)
+      return { questions }
+    }),
 }))
 
 useQuestionStore.subscribe(({ questions }) => {
