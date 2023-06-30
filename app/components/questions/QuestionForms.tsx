@@ -6,6 +6,7 @@ import { Question, createQuestion, useQuestionStore } from '@/app/store'
 import { nanoid } from 'nanoid'
 import { ActionsBar, ActionsBarContainer } from './ActionsBar'
 import { useState } from 'react'
+import Button from '../ui/Card/Button/Button'
 
 export default function QuestionForms() {
   const questionStore = useQuestionStore()
@@ -61,6 +62,9 @@ export default function QuestionForms() {
             <CardBody>No question.</CardBody>
           </Card>
         )}
+        <div className="flex justify-end mt-6">
+          <Button onClick={() => console.log({ questions })}>Submit</Button>
+        </div>
       </div>
       <ActionsBar onAdd={addQuestionFormHandler} top={actionBarTop} />
     </ActionsBarContainer>
