@@ -64,12 +64,15 @@ export const useQuestionStore = create<QuestionStore>((set) => ({
         ],
       }
     }),
-  updateQuestion: (index: number, question: Partial<Question>) =>
+  updateQuestion: (index: number, update: Partial<Question>) =>
     set((state) => {
-      const updatedQuestion = { ...state.questions[index], ...question }
-      const updatedQuestions = [...state.questions]
-      updatedQuestions[index] = updatedQuestion
-      return { questions: updatedQuestions }
+      return {
+        questions: [
+          ...state.questions.slice(0, index),
+          { ...state.questions[index], ...update },
+          ...state.questions.slice(index + 1),
+        ],
+      }
     }),
   deleteQuestion: (index: number) =>
     set((state) => {

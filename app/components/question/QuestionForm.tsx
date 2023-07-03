@@ -7,16 +7,16 @@ import AddQuestionOption from './AddQuestionOption'
 import QuestionFormBottomBar from './QuestionFormBottomBar'
 import QuestionInput from './QuestionInput'
 import QuestionTypeSelect from './QuestionTypeSelect'
-import {
-  questionTypeMultipleOptions as qTypeMultiOptions,
-  questionTypeText as qTypeText,
-} from './question-type'
 import { faGripHorizontal } from '@fortawesome/free-solid-svg-icons'
 import styles from './QuestionForm.module.css'
 import questionStyles from './Question.module.css'
 
 import QuestionOption from './QuestionOption'
-import { determineIcon } from './utils/utilities'
+import {
+  determineIcon,
+  isMultiOptionsQuestion,
+  isTextQuestion,
+} from '@/app/utils'
 import { Question as QuestionType } from '@/app/store'
 import { Draggable } from 'react-beautiful-dnd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -38,12 +38,6 @@ export default function QuestionForm({
   selected: boolean
   index: number
 }) {
-  const isQTypeTextSelected = Object.values(qTypeText).includes(
-    question.questionType
-  )
-  const isQTypeMultOptionsSelected = Object.values(qTypeMultiOptions).includes(
-    question.questionType
-  )
   const [questionOptions, setQuestionOptions] = useState(() =>
     question.questionOptions.map((option, index) => ({
       key: index,
@@ -100,7 +94,7 @@ export default function QuestionForm({
   }
 
   const showAnswers = (selected: boolean) => {
-    if (isQTypeTextSelected) {
+    if (isTextQuestion(question)) {
       return (
         <p className={styles.render_question_text}>
           Text ({question.questionType})
@@ -108,7 +102,7 @@ export default function QuestionForm({
       )
     }
 
-    if (isQTypeMultOptionsSelected) {
+    if (isMultiOptionsQuestion(question)) {
       const icon = determineIcon(question.questionType)
 
       return (
