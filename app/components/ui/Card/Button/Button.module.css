@@ -1,0 +1,39 @@
+.button {
+  white-space: nowrap;
+  user-select: none;
+  display: inline-flex;
+  background-color: hsl(219.4, 51.9%, 47.3%);
+  border: 1px solid hsl(219.4, 51.9%, 47.3%);
+  color: white;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: calc(0.5em - 1px);
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  outline: none;
+  height: 2.5rem;
+  border-radius: 2px;
+  line-height: 1;
+  align-items: center;
+}
+
+.button:focus {
+  outline: non;
+  box-shadow: 0 0 0 0.125em rgba(4, 129, 169, 0.25);
+}
+
+.button:not([disabled]):hover,
+.button:not([disabled]):focus {
+  border-color: hsl(219.4, 51.9%, 43.3%);
+  background-color: hsl(219.4, 51.9%, 43.3%);
+  color: white;
+}
+
+.button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,20 @@
+.bottomNavigationBar {
+  display: flex;
+}
+
+.bottomNavigationBarButton {
+  color: var(--color-light);
+  opacity: 0.8;
+  padding: .25rem .5rem;
+}
+
+.bottomNavigationBarButton:hover, .bottomNavigationBarButton:focus {
+  outline: none;
+  opacity: 1;
+}
+
+.bottomNavigationBarSeparator {
+  width: 1px;
+  background-color: hsl(200, 10%, 85%);
+  margin: .25rem .5rem;
+}

@@ -2,10 +2,11 @@ import React from 'react'
 
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons'
 
-import styles from './AddOption.module.css'
+import styles from './AddQuestionOption.module.css'
+import questionStyles from './Question.module.css'
 import MultipleOptionsIconOrNum from './MultipleOptionsIconOrNum'
 
-export default function AddOption(props: {
+export default function AddQuestionOption(props: {
   icon?: IconDefinition
   num: number
   onClick: () => void
@@ -15,7 +16,7 @@ export default function AddOption(props: {
   }
 
   return (
-    <label className="items-container mb-2 flex">
+    <label className={questionStyles.questionOption}>
       <MultipleOptionsIconOrNum icon={props.icon} num={props.num} />
       <a className={styles.add_option_link} onClick={onClickHandler}>
         Add an option
