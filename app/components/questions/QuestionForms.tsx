@@ -43,7 +43,12 @@ export default function QuestionForms() {
     questionStore.reorderQuestion(source.index, destination.index)
   }
 
+  useEffect(() => {
+    setRenderUI(true)
+  }, [])
+
   return (
+    renderUI && (
     <ActionsBarContainer>
       <div className="pb-32">
         <DragDropContext onDragEnd={onDragEnd}>
