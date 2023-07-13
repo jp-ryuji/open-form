@@ -141,8 +141,9 @@ export default function QuestionForm({
 
   return (
     <Draggable key={question.id} index={index} draggableId={question.id}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
+          data-question-id={question.id}
           className={[
             selected ? 'selected' : '',
             'mb-4',
