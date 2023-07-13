@@ -23,7 +23,6 @@ export const ActionsBar = ({
   })
 
   useEffect(() => {
-    console.log({ fixedTop })
     fixedTop && setTop(fixedTop)
   }, [fixedTop])
 
