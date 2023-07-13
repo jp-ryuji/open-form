@@ -18,7 +18,9 @@ export default function QuestionForms() {
   const [renderUI, setRenderUI] = useState(false)
 
   const addQuestionFormHandler = (question?: Question) => {
-    questionStore.addQuestion(question || createQuestion())
+    const newQuestion = question || createQuestion()
+    questionStore.addQuestion(newQuestion)
+    selectQuestionFormHandler(newQuestion)
   }
 
   const deleteQuestionFormHandler = (index: number) => {
