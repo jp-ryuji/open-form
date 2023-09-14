@@ -1,0 +1,24 @@
+.tooltip {
+  position: relative;
+}
+
+.tooltipContent {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0%);
+  transition: all 100ms ease-in-out;
+  color: white;
+  background-color: hsla(200, 10%, 25%, 0.8);
+  padding: 4px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid hsla(200, 10%, 25%, .9);
+  opacity: 0;
+}
+
+.tooltip:hover .tooltipContent {
+  transform: translateX(-50%) translateY(60%);
+  opacity: 1;
+}
